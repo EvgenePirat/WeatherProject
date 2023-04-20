@@ -21,7 +21,7 @@ public class Locations {
     private BigDecimal longitude;
 
     @ManyToOne
-    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
     public Locations() {

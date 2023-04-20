@@ -3,6 +3,7 @@ package com.example.weatherproject.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "sessions")
@@ -12,16 +13,16 @@ public class Session {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "session_id", referencedColumnName = "id", unique = true, nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true, nullable = false)
     private User user;
 
     @Column(name = "expiresAt", nullable = false)
-    private LocalDateTime ExpiresAt;
+    private Date ExpiresAt;
 
     public Session() {
     }
 
-    public Session(User user, LocalDateTime expiresAt) {
+    public Session(User user, Date expiresAt) {
         this.user = user;
         ExpiresAt = expiresAt;
     }
@@ -42,11 +43,11 @@ public class Session {
         this.user = user;
     }
 
-    public LocalDateTime getExpiresAt() {
+    public Date getExpiresAt() {
         return ExpiresAt;
     }
 
-    public void setExpiresAt(LocalDateTime expiresAt) {
+    public void setExpiresAt(Date expiresAt) {
         ExpiresAt = expiresAt;
     }
 
