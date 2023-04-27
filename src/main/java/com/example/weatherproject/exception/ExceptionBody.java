@@ -1,9 +1,13 @@
 package com.example.weatherproject.exception;
 
+import com.google.gson.annotations.Expose;
+
 public class ExceptionBody {
 
+    @Expose
     private int status;
 
+    @Expose
     private String message;
 
     public ExceptionBody() {

@@ -34,6 +34,14 @@ public class Locations {
         this.user = user;
     }
 
+    public Locations(Long id, String name, BigDecimal latitude, BigDecimal longitude, User user) {
+        this.id = id;
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }

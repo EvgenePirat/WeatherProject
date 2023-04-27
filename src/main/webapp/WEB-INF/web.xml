@@ -4,6 +4,26 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
 
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.example.weatherproject.filter.AuthFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/auth/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>MainPage</servlet-name>
+        <jsp-file>/WEB-INF/views/jsp/main.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>MainPage</servlet-name>
+        <url-pattern>/auth/mane</url-pattern>
+    </servlet-mapping>
+
     <listener>
         <listener-class>com.example.weatherproject.сonfig.FactorySession</listener-class>
     </listener>

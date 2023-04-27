@@ -1,12 +1,14 @@
 package com.example.weatherproject.service;
 
-import com.example.weatherproject.entity.User;
-import com.example.weatherproject.exception.LoginAlreadyExistException;
+import com.example.weatherproject.exception.auth_exception.LoginAlreadyExistException;
+import com.example.weatherproject.exception.auth_exception.PasswordWrongException;
+import com.example.weatherproject.exception.user_exception.UserNotFoundException;
+import com.example.weatherproject.model.UserDto;
 import jakarta.persistence.PersistenceException;
 
 public interface AuthService {
 
-    User registration(User user) throws LoginAlreadyExistException, PersistenceException;
+    UserDto registration(UserDto user) throws LoginAlreadyExistException, PersistenceException;
 
-    User login(User user);
+    UserDto login(UserDto user) throws UserNotFoundException, PasswordWrongException;
 }

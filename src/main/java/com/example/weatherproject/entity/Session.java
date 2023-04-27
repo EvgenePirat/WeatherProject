@@ -1,18 +1,19 @@
 package com.example.weatherproject.entity;
 
+import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "sessions")
-public class Session {
+public class Session{
 
     @Id
-    private Long id;
+    private String id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true, nullable = false)
     private User user;
 
@@ -22,16 +23,22 @@ public class Session {
     public Session() {
     }
 
+    public Session(String id, User user, Date expiresAt) {
+        this.id = id;
+        this.user = user;
+        ExpiresAt = expiresAt;
+    }
+
     public Session(User user, Date expiresAt) {
         this.user = user;
         ExpiresAt = expiresAt;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
