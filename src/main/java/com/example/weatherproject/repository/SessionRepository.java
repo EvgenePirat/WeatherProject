@@ -5,8 +5,11 @@ import com.example.weatherproject.exception.session_exception.SessionAlreadyExis
 
 public interface SessionRepository {
 
-    Session save(Session session) throws SessionAlreadyExistForUserException;
+    Session save(Session session);
 
-    boolean checkSession(Long userId, org.hibernate.Session sessionHibernate) throws SessionAlreadyExistForUserException;
+    boolean checkSession(Long userId);
+
+    Session getSession(Long userId);
+
 
 }

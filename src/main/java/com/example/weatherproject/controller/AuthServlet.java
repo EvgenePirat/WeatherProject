@@ -18,7 +18,6 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @WebServlet(name = "AuthServlet", value = "/auth/login")
@@ -38,24 +37,17 @@ public class AuthServlet extends HttpServlet {
             String login = request.getParameter("login");
             String password = request.getParameter("password");
             UserDto userAfterCheck = authService.login(new UserDto(login, password));
-            HttpSession session = (HttpSession) request.getAttribute("session");
+            HttpSession session = request.getSession(true);
             Date date = new Date(System.currentTimeMillis()+(session.getMaxInactiveInterval() * 1000));
-            System.out.println(date);
             sessionService.create(session.getId(),userAfterCheck,date);
             request.setAttribute("user",userAfterCheck);
         }catch (PersistenceException e){
             e.printStackTrace();
-            response = getReadyResponse(500, "Error with BD",response);
-            request.setAttribute("error",true);
+            request.setAttribute("bodyError", new ExceptionBody(500, "Error with BD"));
         } catch (UserNotFoundException e) {
-            response = getReadyResponse(400, "Bad request, login not found!", response);
-            request.setAttribute("error",true);
+            request.setAttribute("bodyError", new ExceptionBody(400, "Bad request, login not found!"));
         } catch (PasswordWrongException e) {
-            response = getReadyResponse(400, "Password is wrong!", response);
-            request.setAttribute("error",true);
-        } catch (SessionAlreadyExistForUserException e) {
-            response = getReadyResponse(400, "Session already exist!", response);
-            request.setAttribute("error",true);
+            request.setAttribute("bodyError", new ExceptionBody(400, "Password is wrong!"));
         }
     }
 
@@ -69,18 +61,11 @@ public class AuthServlet extends HttpServlet {
             String userAfterSaveInJson = gson.toJson(userAfterSave);
             response.getWriter().write(userAfterSaveInJson);
         }catch (IOException e){
-            response = getReadyResponse(404,"Required form field is missing",response);
+            request.setAttribute("bodyError", new ExceptionBody(400,"Required form field is missing"));
         }catch (LoginAlreadyExistException e){
-            response = getReadyResponse(400,"User with such login already exist!",response);
+            request.setAttribute("bodyError", new ExceptionBody(400,"User with such login already exist!"));
         }catch (PersistenceException e){
-            response = getReadyResponse(500, "Error with BD",response);
+            request.setAttribute("bodyError", new ExceptionBody(500, "Error with BD"));
         }
-    }
-
-    private HttpServletResponse getReadyResponse(int code, String message, HttpServletResponse response) throws IOException {
-        response.setStatus(code);
-        String responseError = gson.toJson(new ExceptionBody(code,message));
-        response.getWriter().write(responseError);
-        return response;
     }
 }

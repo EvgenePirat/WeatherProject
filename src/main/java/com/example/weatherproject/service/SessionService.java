@@ -8,5 +8,5 @@ import java.util.Date;
 
 public interface SessionService {
 
-    Session create(String sessionId, UserDto userDto, Date date) throws SessionAlreadyExistForUserException;
+    Session create(String sessionId, UserDto userDto, Date date);
 }
