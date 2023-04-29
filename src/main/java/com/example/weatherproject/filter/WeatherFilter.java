@@ -4,6 +4,7 @@ import com.example.weatherproject.exception.ExceptionBody;
 import com.example.weatherproject.exception.validation_exception.ValidationDataException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
