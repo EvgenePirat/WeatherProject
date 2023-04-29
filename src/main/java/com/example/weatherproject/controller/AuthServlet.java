@@ -3,7 +3,6 @@ package com.example.weatherproject.controller;
 import com.example.weatherproject.exception.*;
 import com.example.weatherproject.exception.auth_exception.LoginAlreadyExistException;
 import com.example.weatherproject.exception.auth_exception.PasswordWrongException;
-import com.example.weatherproject.exception.session_exception.SessionAlreadyExistForUserException;
 import com.example.weatherproject.exception.user_exception.UserNotFoundException;
 import com.example.weatherproject.model.UserDto;
 import com.example.weatherproject.service.AuthService;
@@ -39,6 +38,7 @@ public class AuthServlet extends HttpServlet {
             UserDto userAfterCheck = authService.login(new UserDto(login, password));
             HttpSession session = request.getSession(true);
             Date date = new Date(System.currentTimeMillis()+(session.getMaxInactiveInterval() * 1000));
+            System.out.println(session.getId());
             sessionService.create(session.getId(),userAfterCheck,date);
             request.setAttribute("user",userAfterCheck);
         }catch (PersistenceException e){

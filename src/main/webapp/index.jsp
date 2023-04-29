@@ -7,11 +7,10 @@
 <body>
     <h1 align="center">Page login!</h1>
     <br>
-    <div align="center">
-        <h4>Input please login</h4>
-        <input type="text">
-        <h4>Input please password</h4>
-        <input type="text">
-    </div>
+    <form action="/WeatherProject_war_exploded/auth/login" method="GET">
+        <input type="text" name="login" value="pirat">
+        <input type="password" name="password" value="1313">
+        <input type="submit" value="Отправить">
+    </form>
 </body>
 </html>

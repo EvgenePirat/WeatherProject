@@ -1,6 +1,7 @@
 package com.example.weatherproject.service.impl;
 
 import com.example.weatherproject.entity.Session;
+import com.example.weatherproject.exception.session_exception.SessionNotFoundException;
 import com.example.weatherproject.model.UserDto;
 import com.example.weatherproject.model.mapper.UserMapper;
 import com.example.weatherproject.repository.SessionRepository;
@@ -17,5 +18,10 @@ public class SessionServiceImpl implements SessionService {
     public Session create(String sessionId, UserDto userDto, Date date){
         Session session = new Session(sessionId, UserMapper.transformation(userDto),date);
         return sessionRepository.save(session);
+    }
+
+    @Override
+    public boolean checkSession(String sessionId) throws SessionNotFoundException {
+        return sessionRepository.checkSession(sessionId);
     }
 }

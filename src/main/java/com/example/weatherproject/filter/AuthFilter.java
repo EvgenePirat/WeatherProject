@@ -43,10 +43,13 @@ public class AuthFilter implements Filter {
             servletRequest.getRequestDispatcher("/error").forward(servletRequest, servletResponse);
         } else {
             UserDto userAfterCheck = (UserDto) servletRequest.getAttribute("user");
-            HttpSession session = ((HttpServletRequest) servletRequest).getSession(true);
+            HttpSession session = ((HttpServletRequest) servletRequest).getSession(false);
             session.setAttribute("userId", userAfterCheck.getId());
             session.setMaxInactiveInterval(7200);
+            System.out.println(session.getId());
             Cookie cookie = new Cookie("sessionId", session.getId());
+            cookie.setPath("/WeatherProject_war_exploded/security/weather");
+            cookie.setHttpOnly(true);
             ((HttpServletResponse) servletResponse).addCookie(cookie);
             servletRequest.getRequestDispatcher("/auth/mane").forward(servletRequest, servletResponse);
         }

@@ -12,5 +12,11 @@
 </head>
 <body>
     <h2>You succeful entered in account!</h2>
+
+    <h4>Add new weather</h4>
+    <form action="/WeatherProject_war_exploded/security/weather" method="POST">
+        <input type="text" name="city" value="Kiev">
+        <input type="submit" value="Отправить">
+    </form>
 </body>
 </html>

@@ -5,13 +5,23 @@
          version="5.0">
 
     <filter>
-        <filter-name>WeatherServlet</filter-name>
-        <filter-class>com.example.weatherproject.controller.WeatherServlet</filter-class>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>com.example.weatherproject.filter.SecurityFilter</filter-class>
     </filter>
 
     <filter-mapping>
-        <filter-name>WeatherServlet</filter-name>
+        <filter-name>SecurityFilter</filter-name>
         <url-pattern>/security/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>WeatherFilter</filter-name>
+        <filter-class>com.example.weatherproject.filter.WeatherFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>WeatherFilter</filter-name>
+        <servlet-name>WeatherServlet</servlet-name>
     </filter-mapping>
 
     <filter>
