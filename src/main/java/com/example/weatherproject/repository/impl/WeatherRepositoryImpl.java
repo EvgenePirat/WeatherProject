@@ -5,15 +5,83 @@ import com.example.weatherproject.repository.WeatherRepository;
 import com.example.weatherproject.сonfig.FactorySession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 public class WeatherRepositoryImpl implements WeatherRepository {
     @Override
-    public Locations save(Locations locations) {
+    public Optional<Locations> save(Locations locations, Long userId) {
         try(Session session = FactorySession.getSession()){
             Transaction transaction = session.beginTransaction();
             session.persist(locations);
             transaction.commit();
-            return locations;
+            return Optional.of(locations);
         }
+    }
+
+    @Override
+    public boolean checkLocation(Long userId, String name) {
+        org.hibernate.Session sessionHibernate = FactorySession.getSession();
+        Transaction transaction = sessionHibernate.getTransaction();
+        if(transaction.isActive()){
+            return processCheckLocation(userId,name,sessionHibernate);
+        }else{
+            transaction.begin();
+            boolean result = processCheckLocation(userId,name,sessionHibernate);
+            transaction.commit();
+            return result;
+        }
+    }
+
+    @Override
+    public Optional<Set<Locations>> getAll(Long userId) {
+        org.hibernate.Session sessionHibernate = FactorySession.getSession();
+        Transaction transaction = sessionHibernate.getTransaction();
+        if(transaction.isActive()){
+            return Optional.of(processFoundLocationSet(userId,sessionHibernate));
+        }else{
+            transaction.begin();
+            Set<Locations> locationsSet = processFoundLocationSet(userId,sessionHibernate);
+            transaction.commit();
+            return Optional.of(locationsSet);
+        }
+    }
+
+    @Override
+    public void delete(Long weatherId) {
+        org.hibernate.Session sessionHibernate = FactorySession.getSession();
+        Transaction transaction = sessionHibernate.getTransaction();
+        Locations locations = processFoundLocation(weatherId,sessionHibernate);
+        if(transaction.isActive()){
+            sessionHibernate.delete(locations);
+        }else{
+            transaction.begin();
+            sessionHibernate.delete(locations);
+            transaction.commit();
+        }
+    }
+
+    private Locations processFoundLocation(Long weatherId, Session sessionHibernate){
+        Query<Locations> query = sessionHibernate.createQuery("FROM Locations WHERE Locations.id = :id", Locations.class);
+        query.setParameter("id",weatherId);
+        return query.getSingleResult();
+    }
+
+    private Set<Locations> processFoundLocationSet(Long userId, Session sessionHibernate){
+        Query<Locations> query = sessionHibernate.createQuery("FROM Locations WHERE user.id = :id", Locations.class);
+        query.setParameter("id",userId);
+        return new HashSet<>(query.getResultList());
+    }
+
+    private boolean processCheckLocation(Long userId, String name, Session sessionHibernate){
+        Query<String> query = sessionHibernate.createQuery("SELECT name FROM Locations WHERE user.id = :id AND name = :name", String.class);
+        query.setParameter("id", userId);
+        query.setParameter("name",name);
+        String nameForCheck = query.uniqueResult();
+        return nameForCheck == null ? false : true;
     }
 }

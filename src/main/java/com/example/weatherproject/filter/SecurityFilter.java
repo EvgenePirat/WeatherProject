@@ -25,12 +25,11 @@ public class SecurityFilter implements Filter {
             Optional<Cookie> cookieWithSession = Arrays.stream(cookies).filter(cookie -> cookie.getName().equals("sessionId")).findFirst();
             if(cookieWithSession.isPresent() == false) servletRequest.getRequestDispatcher("/").forward(servletRequest, servletResponse);
             String sessionId = cookieWithSession.get().getValue();
-            System.out.println(sessionId);
             if(sessionService.checkSession(sessionId) == false) servletRequest.getRequestDispatcher("/").forward(servletRequest, servletResponse);
             HttpSession session = ((HttpServletRequest) servletRequest).getSession(false);
             if (session != null && session.getId().equals(sessionId)) {
                 Long userId = (Long) session.getAttribute("userId");
-                servletRequest.setAttribute("userId",userId);
+                servletRequest.setAttribute("idUser",userId);
             }
             filterChain.doFilter(servletRequest,servletResponse);
         }catch (SessionNotFoundException e){

@@ -9,15 +9,23 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class WeatherFilter implements Filter {
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String method = ((HttpServletRequest) servletRequest).getMethod();
         if(method.equals("POST")){
             workingWithPostRequest(servletRequest,servletResponse);
-        }else{
+            filterChain.doFilter(servletRequest,servletResponse);
+            if (servletRequest.getAttribute("bodyError") != null) {
+                servletRequest.getRequestDispatcher("/error").forward(servletRequest, servletResponse);
+            } else {
+                servletRequest.getRequestDispatcher("/auth/mane").forward(servletRequest, servletResponse);
+            }
+        } else if (method.equals("DELETE")) {
+            filterChain.doFilter(servletRequest,servletResponse);
+        } else{
             filterChain.doFilter(servletRequest,servletResponse);
         }
-        filterChain.doFilter(servletRequest,servletResponse);
     }
 
     private void workingWithPostRequest(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {

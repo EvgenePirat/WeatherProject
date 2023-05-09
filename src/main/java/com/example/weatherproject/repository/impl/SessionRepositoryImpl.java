@@ -31,10 +31,11 @@ public class SessionRepositoryImpl implements SessionRepository {
     @Override
     public Optional<Session> getSession(Long userId) {
         org.hibernate.Session sessionHibernate = FactorySession.getSession();
+        Transaction transaction = sessionHibernate.getTransaction();
         if(sessionHibernate.isConnected()){
             return queryForGetSessionWithUserId(userId,sessionHibernate);
         }else{
-            Transaction transaction = sessionHibernate.beginTransaction();
+            transaction.begin();
             Optional<Session> session = queryForGetSessionWithUserId(userId,sessionHibernate);
             transaction.commit();
             return session;
@@ -44,13 +45,13 @@ public class SessionRepositoryImpl implements SessionRepository {
     @Override
     public Optional<Session> getSession(String sessionId) {
         org.hibernate.Session sessionHibernate = FactorySession.getSession();
-        Transaction tx = sessionHibernate.getTransaction();
-        if(tx.isActive()){
+        Transaction transaction = sessionHibernate.getTransaction();
+        if(transaction.isActive()){
             return processGetSession(sessionId,sessionHibernate);
         }else{
-            tx.begin();
+            transaction.begin();
             Optional<Session> session = processGetSession(sessionId, sessionHibernate);
-            tx.commit();
+            transaction.commit();
             return session;
         }
     }
