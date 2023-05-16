@@ -51,7 +51,7 @@ public class AuthFilter implements Filter {
             cookie.setPath("/WeatherProject_war_exploded/security/weather");
             cookie.setHttpOnly(true);
             ((HttpServletResponse) servletResponse).addCookie(cookie);
-            servletRequest.getRequestDispatcher("/auth/mane").forward(servletRequest, servletResponse);
+            servletRequest.getRequestDispatcher("/security/main").forward(servletRequest, servletResponse);
         }
     }
 

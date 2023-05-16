@@ -27,7 +27,8 @@
         </form>
 
         <h4>Delete weather</h4>
-        <form action="/WeatherProject_war_exploded/security/weather" method="DELETE">
+        <form action="/WeatherProject_war_exploded/security/weather" method="GET">
+            <input type="hidden" name="method" value="DELETE">
             <input type="text" name="id">
             <input type="submit" value="Отправить">
         </form>

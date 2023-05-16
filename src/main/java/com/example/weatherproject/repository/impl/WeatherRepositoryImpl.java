@@ -55,20 +55,19 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     public void delete(Long weatherId) {
         org.hibernate.Session sessionHibernate = FactorySession.getSession();
         Transaction transaction = sessionHibernate.getTransaction();
-        Locations locations = processFoundLocation(weatherId,sessionHibernate);
         if(transaction.isActive()){
-            sessionHibernate.delete(locations);
+            processDeleteLocation(weatherId,sessionHibernate);
         }else{
             transaction.begin();
-            sessionHibernate.delete(locations);
+            processDeleteLocation(weatherId,sessionHibernate);
             transaction.commit();
         }
     }
 
-    private Locations processFoundLocation(Long weatherId, Session sessionHibernate){
-        Query<Locations> query = sessionHibernate.createQuery("FROM Locations WHERE Locations.id = :id", Locations.class);
-        query.setParameter("id",weatherId);
-        return query.getSingleResult();
+    private int processDeleteLocation(Long weatherId, Session sessionHibernate){
+        Query query = sessionHibernate.createQuery("DELETE FROM Locations WHERE id = :id");
+        query.setParameter("id", weatherId);
+        return query.executeUpdate();
     }
 
     private Set<Locations> processFoundLocationSet(Long userId, Session sessionHibernate){

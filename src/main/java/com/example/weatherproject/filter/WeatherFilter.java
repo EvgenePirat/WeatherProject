@@ -4,7 +4,6 @@ import com.example.weatherproject.exception.ExceptionBody;
 import com.example.weatherproject.exception.validation_exception.ValidationDataException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -16,15 +15,18 @@ public class WeatherFilter implements Filter {
         if(method.equals("POST")){
             workingWithPostRequest(servletRequest,servletResponse);
             filterChain.doFilter(servletRequest,servletResponse);
-            if (servletRequest.getAttribute("bodyError") != null) {
-                servletRequest.getRequestDispatcher("/error").forward(servletRequest, servletResponse);
-            } else {
-                servletRequest.getRequestDispatcher("/auth/mane").forward(servletRequest, servletResponse);
-            }
-        } else if (method.equals("DELETE")) {
-            filterChain.doFilter(servletRequest,servletResponse);
+            checkError(servletRequest,servletResponse);
         } else{
             filterChain.doFilter(servletRequest,servletResponse);
+            checkError(servletRequest,servletResponse);
+        }
+    }
+
+    private void checkError(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
+        if (servletRequest.getAttribute("bodyError") != null) {
+            servletRequest.getRequestDispatcher("/error").forward(servletRequest, servletResponse);
+        } else {
+            servletRequest.getRequestDispatcher("/security/main").forward(servletRequest, servletResponse);
         }
     }
 

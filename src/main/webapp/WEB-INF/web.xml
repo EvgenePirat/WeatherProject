@@ -51,7 +51,7 @@
 
     <servlet-mapping>
         <servlet-name>MainPage</servlet-name>
-        <url-pattern>/auth/mane</url-pattern>
+        <url-pattern>/security/main</url-pattern>
     </servlet-mapping>
 
     <listener>

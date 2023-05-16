@@ -38,7 +38,9 @@ public class WeatherServiceImpl implements WeatherService {
         Set<Locations> locationsSet = weatherRepository.getAll(userId).get();
         Set<WeatherInfo> weatherInfoSet = new HashSet<>();
         for(Locations location : locationsSet){
-            weatherInfoSet.add(openWeather.searchWeatherWithCity(location.getName()));
+            WeatherInfo weatherInfo = openWeather.searchWeatherWithCity(location.getName());
+            weatherInfo.setId(Math.toIntExact(location.getId()));
+            weatherInfoSet.add(weatherInfo);
         }
         return weatherInfoSet;
     }

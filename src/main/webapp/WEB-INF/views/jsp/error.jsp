@@ -15,7 +15,7 @@ Created by IntelliJ IDEA.
   <h2>You get error</h2>
   <%
       ExceptionBody exceptionBody = (ExceptionBody) request.getAttribute("bodyError");
-      out.println(exceptionBody.getMessage());
+      out.println(exceptionBody.getMessage()+"<br>");
       out.println(" Code error = ");
       out.println(exceptionBody.getStatus());
   %>
