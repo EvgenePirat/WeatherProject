@@ -5,12 +5,16 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-    <h1 align="center">Page login!</h1>
-    <br>
-    <form action="/WeatherProject_war_exploded/auth/login" method="GET">
-        <input type="text" name="login" value="pirat">
-        <input type="password" name="password" value="1313">
-        <input type="submit" value="Отправить">
-    </form>
+    <div align="center">
+        <h1 >Page login!</h1>
+        <br>
+        <form action="/WeatherProject_war_exploded/auth/login" method="GET">
+            <input type="text" name="login" value="pirat">
+            <input type="password" name="password" value="1313">
+            <input type="submit" value="Отправить">
+        </form>
+        <br>
+        <a href="/WeatherProject_war_exploded/registration"><h4>Registration</h4></a>
+    </div>
 </body>
 </html>

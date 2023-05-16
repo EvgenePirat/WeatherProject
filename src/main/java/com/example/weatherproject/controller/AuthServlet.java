@@ -56,7 +56,9 @@ public class AuthServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         try{
-            UserDto user = gson.fromJson(request.getReader(), UserDto.class);
+            String login = request.getParameter("login");
+            String password = request.getParameter("password");
+            UserDto user = new UserDto(login,password);
             UserDto userAfterSave = authService.registration(user);
             String userAfterSaveInJson = gson.toJson(userAfterSave);
             response.getWriter().write(userAfterSaveInJson);

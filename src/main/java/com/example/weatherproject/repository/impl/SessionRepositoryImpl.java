@@ -78,14 +78,14 @@ public class SessionRepositoryImpl implements SessionRepository {
         Query<Session> query = sessionHibernate.createQuery("FROM Session WHERE id = :id", Session.class);
         query.setParameter("id", sessionId);
         Session session = query.uniqueResult();
-        return Optional.of(session);
+        return Optional.ofNullable(session);
     }
 
     private Optional<Session> queryForGetSessionWithUserId(Long userId, org.hibernate.Session sessionHibernate){
         Query<Session> query = sessionHibernate.createQuery("FROM Session WHERE user.id = :id", Session.class);
         query.setParameter("id", userId);
         Session session = query.uniqueResult();
-        return Optional.of(session);
+        return Optional.ofNullable(session);
     }
 
 }

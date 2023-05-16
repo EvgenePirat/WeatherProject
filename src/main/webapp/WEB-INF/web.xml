@@ -45,6 +45,16 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>RegistrationPage</servlet-name>
+        <jsp-file>/WEB-INF/views/jsp/registration.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>RegistrationPage</servlet-name>
+        <url-pattern>/registration</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>MainPage</servlet-name>
         <jsp-file>/WEB-INF/views/jsp/main.jsp</jsp-file>
     </servlet>
